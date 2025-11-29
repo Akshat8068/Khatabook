@@ -1,13 +1,23 @@
+import { useContext } from "react"
 import ListItem from "./ListItem"
+import TransactionContext from "../context/TransactionContext"
 
-const ListGroup = ({transactions,removetransaction,edittransactionfun,modelOpen}) => {
+const ListGroup = () => {
+  const { transactions } = useContext(TransactionContext)
+
   return (
     <>
-        <ul className="p-3  border-gray-200 border space-y-2.5">
+      <ul className="border border-gray-300 rounded-lg 
+                     p-2 sm:p-3 md:p-4 
+                     space-y-2 sm:space-y-2.5 
+                     max-h-[65vh] overflow-y-auto 
+                     scroll-smooth shadow-sm">
         {
-          transactions.map(transaction => <ListItem key={transactions.id} transaction={transaction} removetransaction={removetransaction} edittransactionfun={edittransactionfun} modelOpen={modelOpen} />)
-        }  
-        </ul>
+          transactions.map(transaction => (
+            <ListItem key={transaction.id} transaction={transaction} />
+          ))
+        }
+      </ul>
     </>
   )
 }

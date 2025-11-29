@@ -1,21 +1,41 @@
-import { FaRegEdit } from "react-icons/fa"
+import { useContext } from "react";
+import { FaRegEdit } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
-const ListItem = ({transaction,removetransaction,edittransactionfun,modelOpen}) => {
+import TransactionContext from "../context/TransactionContext";
+
+const ListItem = ({ transaction }) => {
+  const { dispatch, modelOpen } = useContext(TransactionContext);
+
   return (
     <>
-        <li className="flex items-center justify-between m-2 boder border-black border-2 rounded-3xl px-5">
-        <p className="text-xs font-extralight">id : {transaction.id} </p>
-            <h3 className="text-lg font-medium"> {transaction.text} </h3>
-            <h2 className="text-xl font-semibold"> {transaction.amount} </h2>
-            
-            <div className="flex items-center justify-around">
-          <button onClick={() => { edittransactionfun(transaction), modelOpen() }} className="m-2.5 text-xl bg-blue-300 p-2 rounded-sm"><FaRegEdit /></button>
-                <button onClick={()=>removetransaction(transaction.id)} className="m-2.5 text-xl bg-red-500 p-2 rounded-sm"><MdDeleteOutline /></button>
-            </div>
-        </li>
-      
+      <li className="flex flex-wrap items-center justify-between gap-2 sm:gap-3 border-2 border-black rounded-3xl px-3 sm:px-5 py-2 text-sm sm:text-base md:text-lg">
+
+        <p className="text-[10px] sm:text-xs font-light">
+          id : {transaction.id}
+        </p>
+
+        <h3 className="text-sm sm:text-lg font-medium break-words">
+          {transaction.text}
+        </h3>
+
+        <h2 className="text-sm sm:text-xl font-semibold">
+          {transaction.amount}
+        </h2>
+
+        <div className="flex items-center gap-2 sm:gap-3">
+
+          <button onClick={()=>dispatch({type:"EDIT",payload:transaction},modelOpen())} className="text-base sm:text-xl bg-blue-300 px-2 sm:px-3 py-1 sm:py-2 rounded-md">
+            <FaRegEdit />
+          </button>
+
+          <button onClick={()=>dispatch({type:"REMOVE",payload:transaction.id})} className="text-base sm:text-xl bg-red-500 px-2 sm:px-3 py-1 sm:py-2 rounded-md">
+            <MdDeleteOutline />
+          </button>
+
+        </div>
+      </li>
     </>
   )
 }
 
-export default ListItem
+export default ListItem;
